@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "Si utiliza este software, por favor cítelo de la siguiente manera."
+title: "Antropometría — Composición corporal y somatotipo (Heath-Carter)"
+type: software
+authors:
+  - family-names: "Meléndez-Gallardo"
+    given-names: "José"
+    affiliation: "Instituto Superior de Educación Física (ISEF), Centro Universitario Regional del Este (CURE), Universidad de la República (UdelaR)"
+    email: "jose.melendez@cure.edu.uy"
+license: GPL-3.0-or-later
+repository-code: "https://github.com/REPLACE_WITH_ORG/antropometria-app"
+version: 1.0.0
+date-released: "2026-08-18"
+keywords:
+  - kinanthropometry
+  - somatotype
+  - Heath-Carter
+  - body composition
+  - anthropometry
+  - PWA
+references:
+  - type: article
+    title: "Body composition and somatotype of child and adolescent athletes from the Sports Swimming School, Campus Maldonado, Uruguay"
+    authors:
+      - family-names: "Meléndez-Gallardo"
+        given-names: "José"
+    journal: "Journal of Sport and Kinetic Movement"
+    volume: "43"
+    issue: "I"
+    year: 2024
+    start: 15
+    end: 21
+    doi: "10.52846/jskm/43.2024.1.2"

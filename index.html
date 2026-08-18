@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Antropometría</title>
+<meta name="description" content="Calculadora de composición corporal y somatotipo (método Heath-Carter) a partir de datos antropométricos.">
+<meta name="author" content="Dr. José Meléndez-Gallardo — ISEF, CURE, Universidad de la República">
+<meta name="theme-color" content="#0d1b2a" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="masthead" aria-label="Instituciones">
+  <img src="icons/logo-isef.jpg" alt="ISEF — Instituto Superior de Educación Física">
+  <img src="icons/logo-cure-udelar.png" alt="CURE — Centro Universitario Regional del Este, Universidad de la República">
+</div>
+
+<header class="app-header">
+  <div class="app-header__title">
+    <h1>Antropometría</h1>
+    <p class="app-header__subtitle">Composición corporal y somatotipo (Heath&#8209;Carter)</p>
+  </div>
+  <button id="installBtn" class="btn btn--ghost no-print" hidden>Instalar app</button>
+</header>
+
+<main>
+
+  <section class="card no-print" aria-labelledby="form-title">
+    <h2 id="form-title">Nuevo registro</h2>
+    <form id="subjectForm" novalidate>
+
+      <fieldset>
+        <legend>Básicos</legend>
+        <div class="grid">
+          <label class="field field--wide">
+            <span>Apellido y nombre</span>
+            <input type="text" name="nombre" required autocomplete="off">
+          </label>
+          <label class="field">
+            <span>Sexo</span>
+            <select name="sexo" required>
+              <option value="F">Femenino</option>
+              <option value="M">Masculino</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Fecha de nacimiento</span>
+            <input type="date" name="nacimiento" required>
+          </label>
+          <label class="field">
+            <span>Fecha de evaluación</span>
+            <input type="date" name="fecha" required>
+          </label>
+          <label class="field">
+            <span>Peso (kg)</span>
+            <input type="number" name="peso" step="0.01" min="0" required>
+          </label>
+          <label class="field">
+            <span>Talla (cm)</span>
+            <input type="number" name="talla" step="0.01" min="0" required>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Diámetros (cm)</legend>
+        <div class="grid">
+          <label class="field"><span>Muñeca</span><input type="number" name="muneca" step="0.01" min="0" required></label>
+          <label class="field"><span>Húmero</span><input type="number" name="humero" step="0.01" min="0" required></label>
+          <label class="field"><span>Fémur</span><input type="number" name="femur" step="0.01" min="0" required></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Perímetros (cm)</legend>
+        <div class="grid">
+          <label class="field"><span>CBZ (cabeza)</span><input type="number" name="cbz" step="0.01" min="0" required></label>
+          <label class="field"><span>Br. relajado</span><input type="number" name="brRel" step="0.01" min="0" required></label>
+          <label class="field"><span>Br. contraído</span><input type="number" name="brCont" step="0.01" min="0" required></label>
+          <label class="field"><span>Cintura</span><input type="number" name="cintura" step="0.01" min="0" required></label>
+          <label class="field"><span>Cadera</span><input type="number" name="cadera" step="0.01" min="0" required></label>
+          <label class="field"><span>Muslo anterior</span><input type="number" name="musAnt" step="0.01" min="0" required></label>
+          <label class="field"><span>Pantorrilla medial</span><input type="number" name="pantMed" step="0.01" min="0" required></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Pliegues (mm)</legend>
+        <div class="grid">
+          <label class="field"><span>TRC (tríceps)</span><input type="number" name="trc" step="0.1" min="0" required></label>
+          <label class="field"><span>SSC (subescapular)</span><input type="number" name="ssc" step="0.1" min="0" required></label>
+          <label class="field"><span>SSP (supraespinal)</span><input type="number" name="ssp" step="0.1" min="0" required></label>
+          <label class="field"><span>ABD (abdominal)</span><input type="number" name="abd" step="0.1" min="0" required></label>
+          <label class="field"><span>MMED (pierna medial)</span><input type="number" name="mmed" step="0.1" min="0" required></label>
+          <label class="field"><span>PANT (muslo)</span><input type="number" name="pant" step="0.1" min="0" required></label>
+        </div>
+      </fieldset>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn--primary" id="saveBtn">Calcular y guardar</button>
+        <button type="button" class="btn btn--ghost" id="clearBtn">Limpiar formulario</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="card no-print" id="resultsCard" hidden aria-labelledby="results-title">
+    <h2 id="results-title">Resultado</h2>
+    <div class="results-grid" id="resultsGrid"></div>
+  </section>
+
+  <section class="card" aria-labelledby="chart-title">
+    <div class="card__head">
+      <h2 id="chart-title">Somatocarta</h2>
+      <div class="legend" id="chartLegend"></div>
+    </div>
+    <div class="chart-wrap">
+      <svg id="somatoChart" role="img" aria-label="Somatocarta: ubicación de cada sujeto según endomorfia, mesomorfia y ectomorfia"></svg>
+      <div id="chartTooltip" class="tooltip" hidden></div>
+    </div>
+    <p class="empty-hint" id="chartEmptyHint">Todavía no hay sujetos guardados.</p>
+  </section>
+
+  <section class="card" aria-labelledby="subjects-title">
+    <div class="card__head">
+      <h2 id="subjects-title">Sujetos guardados</h2>
+      <div class="card__actions no-print">
+        <button class="btn btn--ghost btn--sm" id="printGroupBtn">Imprimir informe grupal</button>
+        <button class="btn btn--ghost btn--sm" id="exportBtn">Exportar CSV</button>
+        <button class="btn btn--danger btn--sm" id="clearAllBtn">Borrar todos</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="subjectsTable">
+        <thead>
+          <tr>
+            <th>Nombre</th><th>Sexo</th><th>Edad</th><th>IMC</th>
+            <th>% Grasa</th><th>Endo</th><th>Meso</th><th>Ecto</th><th class="no-print"></th>
+          </tr>
+        </thead>
+        <tbody id="subjectsBody"></tbody>
+      </table>
+    </div>
+    <p class="empty-hint" id="subjectsEmptyHint">Todavía no hay sujetos guardados.</p>
+  </section>
+
+  <section class="card" aria-labelledby="stats-title">
+    <h2 id="stats-title">Estadísticos del grupo</h2>
+    <div class="table-wrap">
+      <table id="statsTable">
+        <thead>
+          <tr><th></th><th>IMC</th><th>% Grasa</th><th>Endo</th><th>Meso</th><th>Ecto</th></tr>
+        </thead>
+        <tbody id="statsBody"></tbody>
+      </table>
+    </div>
+    <p class="empty-hint" id="statsEmptyHint">Todavía no hay sujetos guardados.</p>
+  </section>
+
+  <section class="card card--muted" aria-labelledby="about-title">
+    <h2 id="about-title">Métodos y bibliografía</h2>
+    <ul class="biblio">
+      <li>% Graso: ecuación de Faulkner para deportistas (1968), diferenciada por sexo. Ver nota sobre su atribución más abajo.</li>
+      <li>Peso óseo: ecuación de Von Döbeln (1964), modificada por Rocha (1974).</li>
+      <li>Peso residual: ecuación de Würch — 24.1&nbsp;% en hombres, 20.9&nbsp;% en mujeres.</li>
+      <li>Composición corporal (4 componentes): De Rose, E.H. &amp; Guimarães, A.C.S. (1980). <em>Model for optimization of somatotype in young athletes.</em> En Ostyn, M., Beunen, G. &amp; Simons, J. (Eds.), <em>Kinanthropometry II</em>. University Park Press.</li>
+      <li>Somatotipo: Carter, J.E.L. (2002). <em>The Heath–Carter Anthropometric Somatotype — Instruction Manual.</em></li>
+      <li>Somatocarta (triángulo de Reuleaux): Siders, W.A. &amp; Rue, D.M. (1992). <em>Reuleaux triangle somatocharts.</em> Computers in Biology and Medicine, 22(5), 363–368. <a href="https://doi.org/10.1016/0010-4825(92)90024-H" target="_blank" rel="noopener">doi.org/10.1016/0010-4825(92)90024-H</a></li>
+      <li>Meléndez-Gallardo, J. et al. (2024). <em>Body composition and somatotype of child and adolescent athletes from the Sports Swimming School, Campus Maldonado, Uruguay.</em> Journal of Sport and Kinetic Movement, 43(I), 15–21. <a href="https://doi.org/10.52846/jskm/43.2024.1.2" target="_blank" rel="noopener">doi.org/10.52846/jskm/43.2024.1.2</a></li>
+    </ul>
+    <p class="muted">Nota: la fórmula atribuida a Faulkner (1968) es señalada por parte de la literatura como originalmente derivada por Yuhasz — ver Simões Pires Neto, C. &amp; Glaner, M.F. (2007). <em>"Equação de Faulkner" para predizer a gordura corporal: o fim de um mito.</em> Revista Brasileira de Cineantropometria e Desempenho Humano, 9(2).</p>
+    <p class="muted">Basada en la planilla de cátedra del Grupo de Investigación Biofísica y Bioquímica del Ejercicio, ISEF‑CURE.</p>
+  </section>
+
+  <section class="card card--muted credits" aria-labelledby="credits-title">
+    <h2 id="credits-title">Autoría</h2>
+    <p class="credits__author">Dr. José Meléndez-Gallardo</p>
+    <p class="muted">Instituto Superior de Educación Física (ISEF) · Centro Universitario Regional del Este (CURE) · Universidad de la República (UdelaR)</p>
+    <p class="muted">Software libre bajo licencia GPL-3.0.</p>
+  </section>
+
+  <section id="printIndividualCard" aria-hidden="true"></section>
+
+</main>
+
+<div id="toast" class="toast no-print" role="status" aria-live="polite" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>

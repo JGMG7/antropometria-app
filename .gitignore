@@ -1,0 +1,10 @@
+# OS cruft
+Thumbs.db
+.DS_Store
+
+# local test/browser profiles used during development
+_edgeprofile*/
+
+# duplicate source images (clean copies live in icons/)
+Logo ISEF.jpg
+cropped-logos-Cure-Udelar_2.png
