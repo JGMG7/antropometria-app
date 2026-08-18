@@ -8,6 +8,8 @@ ISEF-CURE (Universidad de la República, Uruguay).
 Funciona enteramente en el navegador (sin backend), guarda los sujetos en el
 dispositivo del usuario y funciona sin conexión una vez instalada.
 
+**App en vivo:** https://jgmg7.github.io/antropometria-app/
+
 ## Funcionalidades
 
 - Carga de datos básicos, diámetros, perímetros y pliegues cutáneos por sujeto.
@@ -37,6 +39,12 @@ Ver la sección "Métodos y bibliografía" dentro de la propia app para el
 detalle completo de las referencias.
 
 ## Uso
+
+La forma más simple es abrir directamente **https://jgmg7.github.io/antropometria-app/**
+en el navegador (celular o computadora) e instalarla desde ahí — no requiere
+crear cuenta ni instalar nada más.
+
+### Correrla localmente (desarrollo)
 
 No requiere instalación de dependencias ni proceso de build. Es HTML/CSS/JS
 puro. Para correrla localmente:

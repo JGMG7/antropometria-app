@@ -8,7 +8,7 @@ authors:
     affiliation: "Instituto Superior de Educación Física (ISEF), Centro Universitario Regional del Este (CURE), Universidad de la República (UdelaR)"
     email: "jose.melendez@cure.edu.uy"
 license: GPL-3.0-or-later
-repository-code: "https://github.com/REPLACE_WITH_ORG/antropometria-app"
+repository-code: "https://github.com/JGMG7/antropometria-app"
 version: 1.0.0
 date-released: "2026-08-18"
 keywords:
